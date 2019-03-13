@@ -8,7 +8,7 @@ import org.springframework.context.annotation.PropertySource;
 import java.io.IOException;
 
 @EnableDubbo(scanBasePackages = "com.alibaba.nacos.dubbo.provider")
-@PropertySource(value = {"classpath:provider-config.properties","classpath:nacos.xml"})
+@PropertySource(value = {"classpath:provider-config.properties"})
 public class DemoServiceProviderBootstrap {
 
     public static void main(String[] args) throws IOException {

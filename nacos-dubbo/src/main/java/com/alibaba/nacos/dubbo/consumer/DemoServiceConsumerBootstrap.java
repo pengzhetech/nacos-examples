@@ -12,7 +12,7 @@ import java.io.IOException;
 
 
 @EnableDubbo
-@PropertySource(value = {"classpath:/consumer-config.properties","classpath:/nacos.xml"})
+@PropertySource(value = {"classpath:/consumer-config.properties"})
 public class DemoServiceConsumerBootstrap {
 
     @Reference(version = "${demo.service.version}")
