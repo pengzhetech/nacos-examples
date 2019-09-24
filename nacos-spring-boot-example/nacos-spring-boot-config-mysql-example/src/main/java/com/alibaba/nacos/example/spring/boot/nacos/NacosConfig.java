@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 @Data
 @Configuration
 @EnableNacosConfig(globalProperties = @NacosProperties(serverAddr = "11.239.163.65:8848"))
-@NacosConfigurationProperties(dataId = "mysql.properties",
+@NacosConfigurationProperties(dataId = "mysql.properties",prefix = "datasource",
     autoRefreshed = true)
 public class NacosConfig {
 

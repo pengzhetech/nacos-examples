@@ -2,13 +2,15 @@ package com.alibaba.nacos.example.spring.boot.controller;
 
 import com.alibaba.nacos.example.spring.boot.model.User;
 import com.alibaba.nacos.example.spring.boot.service.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController("user")
+@RestController("/user")
 public class UserController {
 
     private final UserService userService;
@@ -17,8 +19,12 @@ public class UserController {
     public UserController(UserService userService) {this.userService = userService;}
 
     @GetMapping
-    @ResponseBody
     public User get(@RequestParam int id) {
         return userService.findById(id);
+    }
+
+    @GetMapping("/{userId}")
+    public User getUser(@PathVariable(value = "userId") Integer userId) {
+        return userService.findById(userId);
     }
 }
