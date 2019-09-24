@@ -1,22 +1,34 @@
 package com.alibaba.nacos.example.spring.boot.controller;
 
-import com.alibaba.nacos.api.config.annotation.NacosValue;
-import org.springframework.stereotype.Controller;
+import java.util.List;
+
+import com.alibaba.nacos.example.spring.boot.daimond.NacosConfiguration;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-
-@Controller
+@RestController
 @RequestMapping("config")
 public class ConfigController {
 
-    @NacosValue(value = "${useLocalCache:false}", autoRefreshed = true)
-    private boolean useLocalCache;
+    @Autowired
+    private NacosConfiguration nacosConfiguration;
 
-    @RequestMapping(value = "/get", method = GET)
-    @ResponseBody
-    public boolean get() {
-        return useLocalCache;
+    @GetMapping("/getInt")
+    public int getString() {
+        return nacosConfiguration.getShowNeweGameCardStyle();
     }
+
+    @GetMapping("/getBoolean")
+    public boolean getBoolean() {
+        return nacosConfiguration.isUseLocalCache();
+    }
+
+   /* @GetMapping("/getList")
+    public List<String> getList() {
+        return nacosConfiguration.getStageTwoAtmosphereModules();
+    }*/
+
 }
