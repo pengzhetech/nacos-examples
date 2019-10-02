@@ -13,7 +13,12 @@ import org.springframework.context.annotation.Configuration;
 
 @Data
 @Configuration
-@EnableNacosConfig(globalProperties = @NacosProperties(serverAddr = "11.239.163.65:8848"))
+@EnableNacosConfig(globalProperties =
+@NacosProperties(serverAddr = "11.239.163.65:8848",
+    enableRemoteSyncConfig = "true",
+    maxRetry = "5",
+    configRetryTime = "4000",
+    configLongPollTimeout = "26000"))
 @NacosConfigurationProperties(dataId = "daimond", groupId = "daimond",
     autoRefreshed = true, type = ConfigType.JSON)
 public class NacosConfiguration {

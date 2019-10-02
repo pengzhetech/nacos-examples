@@ -2,13 +2,24 @@ package com.alibaba.nacos.example.spring.boot.controller;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
+import com.alibaba.nacos.api.annotation.NacosInjected;
+import com.alibaba.nacos.api.config.ConfigService;
+import com.alibaba.nacos.api.config.annotation.NacosValue;
+import com.alibaba.nacos.api.exception.NacosException;
 import com.alibaba.nacos.example.spring.boot.daimond.NacosConfiguration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import static com.alibaba.nacos.api.common.Constants.DEFAULT_GROUP;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 /**
  * {
@@ -61,6 +72,32 @@ public class ConfigController {
     @GetMapping("/getMap")
     public Map<String, String> getMap() {
         return nacosConfiguration.getStageOneCampaignBeginTime();
+    }
+
+    @NacosValue(value = "${people.enable:false}", autoRefreshed = true)
+    private String enable;
+
+    @NacosInjected
+    private ConfigService configService;
+
+    @RequestMapping(value = "/get", method = GET)
+    @ResponseBody
+    public String get(@RequestParam String dataId, @RequestParam(defaultValue = DEFAULT_GROUP) String groupId) throws
+        NacosException {
+        return configService.getConfig(dataId, groupId, TimeUnit.SECONDS.toMillis(1));
+    }
+
+    @RequestMapping()
+    @ResponseBody
+    public String value() {
+        return enable;
+    }
+
+    @RequestMapping(value = "/publish", method = POST)
+    @ResponseBody
+    public boolean publish(@RequestParam String dataId, @RequestParam(defaultValue = DEFAULT_GROUP) String groupId,
+        @RequestParam String content) throws NacosException {
+        return configService.publishConfig(dataId, groupId, content);
     }
 
 }

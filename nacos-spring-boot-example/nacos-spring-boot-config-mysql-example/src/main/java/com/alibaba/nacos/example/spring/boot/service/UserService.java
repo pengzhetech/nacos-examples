@@ -2,6 +2,7 @@ package com.alibaba.nacos.example.spring.boot.service;
 
 import com.alibaba.nacos.example.spring.boot.dao.UserRepository;
 import com.alibaba.nacos.example.spring.boot.model.User;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,5 +16,9 @@ public class UserService {
 
     public User findById(Integer id) {
         return userRepository.findById(id).orElse(null);
+    }
+
+    public User insert(User user) {
+        return userRepository.save(user);
     }
 }
