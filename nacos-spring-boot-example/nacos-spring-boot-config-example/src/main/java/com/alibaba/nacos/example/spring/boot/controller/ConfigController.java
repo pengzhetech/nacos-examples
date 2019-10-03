@@ -100,4 +100,9 @@ public class ConfigController {
         return configService.publishConfig(dataId, groupId, content);
     }
 
+    @GetMapping("/switch")
+    public boolean testSwitch() {
+        return nacosConfiguration.isUseLocalCache();
+    }
+
 }
